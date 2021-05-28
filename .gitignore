@@ -3,8 +3,6 @@
 config/config.env
 
 
-# Client
-client
 # dependencies
 client/node_modules
 client/.pnp
