@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { setTodo } from '../../lambdas/todos';
+import { connect } from 'react-redux';
+import { updateTodo, deleteTodo } from '../lambdas/todos';
 
 interface Props {
   todo: TodoProps;
   key: string;
+  updateTodo: (completed: boolean, id: string, title: string) => void;
+  deleteTodo: (id: string) => void;
 }
 
 interface TodoProps {
@@ -12,15 +15,27 @@ interface TodoProps {
   completed: boolean;
 }
 
-const Todo: React.FC<Props> = ({ todo: { id, title, completed } }) => {
-  const [status, setStatus] = useState<boolean>(completed);
+const Todo: React.FC<Props> = ({
+  todo: { id, title, completed },
+  updateTodo,
+  deleteTodo,
+}) => {
+  const [isCompleted, setIsCompleted] = useState<boolean>(completed);
 
   const completeTask = () => {
-    setStatus(!status);
+    setIsCompleted(!isCompleted);
+    //doesn't have the same data with the state that's why I have to add '!' which it must not have
+    updateTodo(!isCompleted, id, title);
   };
 
   const inCompleteTask = () => {
-    setStatus(!status);
+    setIsCompleted(!isCompleted);
+    //doesn't have the same data with the state that's why I have to add '!' which it must not have
+    updateTodo(!isCompleted, id, title);
+  };
+
+  const handleDeleteTodo = () => {
+    deleteTodo(id);
   };
   return (
     <tr className='table-active'>
@@ -28,7 +43,7 @@ const Todo: React.FC<Props> = ({ todo: { id, title, completed } }) => {
       <td>
         <span
           style={
-            status
+            isCompleted
               ? { textDecoration: 'line-through' }
               : { textDecoration: 'none' }
           }
@@ -37,14 +52,14 @@ const Todo: React.FC<Props> = ({ todo: { id, title, completed } }) => {
         </span>
       </td>
       <td>
-        {status ? (
+        {isCompleted ? (
           <span className='badge rounded-pill bg-success'>completed</span>
         ) : (
           <span className='badge rounded-pill bg-info'>not completed</span>
         )}
       </td>
       <td>
-        {!status ? (
+        {!isCompleted ? (
           <button
             type='button'
             className='btn btn-success'
@@ -63,7 +78,11 @@ const Todo: React.FC<Props> = ({ todo: { id, title, completed } }) => {
         )}
       </td>
       <td>
-        <button type='button' className='btn btn-danger'>
+        <button
+          type='button'
+          className='btn btn-danger'
+          onClick={handleDeleteTodo}
+        >
           Delete
         </button>
       </td>
@@ -71,4 +90,4 @@ const Todo: React.FC<Props> = ({ todo: { id, title, completed } }) => {
   );
 };
 
-export default Todo;
+export default connect(null, { updateTodo, deleteTodo })(Todo);

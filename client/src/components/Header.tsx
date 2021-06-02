@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AddTodo from './AddTodo';
 
 const Header: React.FC = () => {
   const [title, setTitle] = useState<string>('');
 
-  const addTodo = () => {
-    console.log('Submitted');
-  };
-
-  const handleChange = (event: any) => {
-    event.preventDefault();
-  };
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
       <div className='container-fluid'>
@@ -66,22 +60,7 @@ const Header: React.FC = () => {
               </div>
             </li>
           </ul> */}
-          <form className='d-flex'>
-            <input
-              className='form-control me-sm-2'
-              type='text'
-              placeholder='Add Todo ...'
-              name='title'
-              onChange={handleChange}
-            />
-            <button
-              className='btn btn-secondary my-2 my-sm-0'
-              type='submit'
-              onClick={addTodo}
-            >
-              Add
-            </button>
-          </form>
+          <AddTodo />
         </div>
       </div>
     </nav>

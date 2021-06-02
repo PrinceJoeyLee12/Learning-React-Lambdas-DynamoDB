@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getTodos } from '../../lambdas/todos';
+import { getTodos } from '../lambdas/todos';
 import { connect } from 'react-redux';
 
 import Todo from './Todo';
@@ -18,8 +18,8 @@ interface TodosProps {
 
 const Todos: React.FC<TodosProps> = ({ getTodos, todosApi }) => {
   useEffect(() => {
-    getTodos();
-  }, [getTodos]);
+    if (todosApi.length === 0) getTodos();
+  }, []);
 
   return (
     <TableSetup>
