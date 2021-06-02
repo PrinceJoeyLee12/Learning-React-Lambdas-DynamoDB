@@ -1,37 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
 import { getTodos } from '../../lambdas/todos';
+import { connect } from 'react-redux';
 
-interface TodosProps {
+import Todo from './Todo';
+import TableSetup from './TableSetup';
+
+interface TodosApi {
   id: string;
   title: string;
   completed: boolean;
 }
 
-interface Props {
-  getTodos: () => Array<TodosProps> | any;
-  todosApi: Array<TodosProps>;
+interface TodosProps {
+  getTodos: () => Array<TodosApi> | any;
+  todosApi: Array<TodosApi> | any;
 }
 
-const Todos: React.FC<Props> = ({ getTodos, todosApi }) => {
-  const [todos, setTodos] = useState<Array<TodosProps>>([]);
-
+const Todos: React.FC<TodosProps> = ({ getTodos, todosApi }) => {
   useEffect(() => {
     getTodos();
   }, [getTodos]);
 
-  useEffect(() => {
-    setTodos(todosApi);
-  }, [todosApi]);
-
   return (
-    <div>
-      {todos.length > 0 &&
-        todos.map((todo) => {
-          const { id, title, completed } = todo;
-          return <li key={id}>{id + ' - ' + completed + ' - ' + title}</li>;
-        })}
-    </div>
+    <TableSetup>
+      {todosApi &&
+        todosApi.map((todo: TodosApi) => <Todo todo={todo} key={todo.id} />)}
+    </TableSetup>
   );
 };
 

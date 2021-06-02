@@ -8,10 +8,10 @@ const app: Application = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(cors({ origin: 'http://localhost:5000' }));
+app.use(cors({ origin: 'http://localhost:5001' }));
 app.use(morgan('dev'));
 
 app.use('/api', require('./routes/api'));
 
-const PORT: number = 5000;
+const PORT: number = 5001;
 app.listen(PORT, () => console.log('Listening to port 5000'));
