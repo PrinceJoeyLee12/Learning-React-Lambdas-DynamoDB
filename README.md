@@ -11,7 +11,7 @@ npm install
 npm run client-install
 ```
 
-## To run Front End (ReactJS)
+## To run Front End Only (ReactJS)
 
 ```js
 npm run client
@@ -23,7 +23,7 @@ npm run client
 npm run server
 ```
 
-## To both Front End and Back End 
+## To run both Front End and Back End 
 
 ```js
 npm run dev
